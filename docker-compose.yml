@@ -1,0 +1,44 @@
+services:
+  proxy:
+    image: caddy:2.8-alpine
+    ports: [ 80:80, 443:443 ]
+    networks: [ public ]
+    cap_add: [ NET_ADMIN ]
+    restart: unless-stopped
+    env_file: [ .env ]
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+  web:
+    image: ghcr.io/clayenapps/depot-web:latest
+    build: web
+    init: true
+    expose: [ 3000 ]
+    networks: [ public, internal ]
+    restart: unless-stopped
+    env_file: [ .env ]
+
+  garage:
+    image: ghcr.io/clayenapps/depot-garage:latest
+    build: garage
+    expose: [ 3900, 3901, 3903 ]
+    networks: [ internal ]
+    restart: unless-stopped
+    env_file: [ .env ]
+    volumes:
+      - ./garage/garage.toml:/etc/garage.toml:ro
+      - garage_meta:/var/lib/garage/meta
+      - garage_data:/var/lib/garage/data
+
+networks:
+  public:
+  internal:
+
+
+volumes:
+  caddy_data:
+  caddy_config:
+  garage_meta:
+  garage_data:
