@@ -19,6 +19,8 @@ services:
     networks: [ public, internal ]
     restart: unless-stopped
     env_file: [ .env ]
+    environment:
+      - BODY_SIZE_LIMIT=52428800
     volumes:
       - data:/data
 
