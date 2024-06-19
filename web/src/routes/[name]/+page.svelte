@@ -17,7 +17,7 @@
         <span>File size (full):</span>
         <span>{humanFileSize(data.fullSize)}</span>
         <span>Uploaded at:</span>
-        <span>{data.lastModified.toLocaleDateString("en-GB")}</span>
+        <span>{new Date(data.lastModified).toLocaleDateString("en-GB")}</span>
     </section>
     <button onclick={download}>Download</button>
 </article>

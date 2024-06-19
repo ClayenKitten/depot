@@ -10,7 +10,6 @@
         let file = files[0]!;
         formData.append("file", file);
 
-        console.log(file.size);
         if (file.size > 50 * 1024 * 1024) {
             // TODO: use toast notification
             alert("File is too big.");
